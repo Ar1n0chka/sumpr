@@ -7,32 +7,31 @@
 
 const int CELL_SIZE = 20;
 
-struct Cell {
+class Cell {
+public:
     bool alive; 
     sf::RectangleShape shape;
 };
 
 
-
 class GameOfLife {
 public:
-    GameOfLife(int width, int height)
-        : width(width), height(height), grid(width, std::vector<Cell>(height)) {
+    GameOfLife(int width, int height): width(width), height(height), grid(width, std::vector<Cell>(height)) {
         window.create(sf::VideoMode(width * CELL_SIZE, height * CELL_SIZE), "Game of Life");
         initializeGrid();
     }
 
-    void run() {
+    void start() {
         bool running = true;
         bool paused = true;
         sf::Font font;
          if (!font.loadFromFile("arialmt.ttf")) 
         // if (!font.loadFromFile("C:\\Programming\\sumpr\\arialmt.ttf")) 
         {
-            std::cout <<"lol"; // Ошибка загрузки шрифта
+            std::cout <<"lol"; 
         }
 
-        // Текст для отображения
+        
         sf::Text text;
         text.setFont(font);
         text.setCharacterSize(18);
@@ -47,14 +46,13 @@ public:
         
         text2.setPosition(0, 20);
 
-        // Прямоугольник для поля ввода
+       
         sf::RectangleShape inputBox(sf::Vector2f(40, 40));
         inputBox.setFillColor(sf::Color(130, 130, 130));
         inputBox.setOutlineColor(sf::Color::Black);
         inputBox.setOutlineThickness(2);
         inputBox.setPosition(0, 0);
 
-        // Строка для хранения введенного текста
         std::string inputText;
 
         while (window.isOpen()) {
@@ -67,7 +65,7 @@ public:
                         int x = event.mouseButton.x / CELL_SIZE;
                         int y = event.mouseButton.y / CELL_SIZE;
                         grid[x][y].alive = !grid[x][y].alive;
-                        grid[x][y].shape.setFillColor(grid[x][y].alive ? sf::Color::Magenta : sf::Color::Black);
+                        grid[x][y].shape.setFillColor(grid[x][y].alive ? sf::Color(158, 96, 179) : sf::Color::Black);
                     }
                 }
                 else if (event.type == sf::Event::KeyPressed) {
@@ -75,7 +73,7 @@ public:
                         paused = !paused;
                     }
                     else if (event.key.code == sf::Keyboard::R) {
-                        initializeGrid(); // Сброс поля
+                        initializeGrid();
                     }
                 }
                 else if (event.type == sf::Event::TextEntered) 
@@ -83,21 +81,17 @@ public:
                     if (event.text.unicode < 128) 
                     {
                         if (event.text.unicode == '\b' && !inputText.empty()) {
-                            // Обработка backspace
                             inputText.pop_back();
                         } else if (event.text.unicode == '\r') {
-                            // Обработка клавиши Enter
+                            
                             std::cout << "Entered text: " << inputText << std::endl;
                             text2.setString(inputText); 
                             std::string temp = text2.getString().toAnsiString();
                             generateRandomCells(std::stoi(temp));
                             inputText.clear();
-                        } else if (event.text.unicode == 'r')
-                        {
-                            //nothing
-                        }
+                        } else if (event.text.unicode == 'r'){}
                         else if (isprint(event.text.unicode) && inputText.length() < width*height) {
-                            // Добавление печатного символа в строку
+
                             inputText += static_cast<char>(event.text.unicode);
                         }
                         text.setString(inputText);
@@ -120,7 +114,7 @@ public:
             window.draw(text2);
             window.display();
 
-            sf::sleep(sf::milliseconds(300)); // Задержка для визуализации
+            sf::sleep(sf::milliseconds(300));
         }
     }
 
@@ -129,7 +123,7 @@ public:
             int x = rand() % width;
             int y = rand() % height;
             grid[x][y].alive = true;
-            grid[x][y].shape.setFillColor(sf::Color::Magenta);
+            grid[x][y].shape.setFillColor(sf::Color(158, 96, 179));
         }
     }
 
@@ -142,7 +136,7 @@ private:
                 grid[x][y].shape.setPosition(x * CELL_SIZE, y * CELL_SIZE);
                 grid[x][y].shape.setFillColor(sf::Color::Black);
                 grid[x][y].shape.setOutlineThickness(1);
-                grid[x][y].shape.setOutlineColor(sf::Color::White);
+                grid[x][y].shape.setOutlineColor(sf::Color(130, 130, 130));
             }
         }
     }
@@ -171,7 +165,7 @@ private:
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
                 grid[x][y].alive = newGrid[x][y];
-                grid[x][y].shape.setFillColor(grid[x][y].alive ? sf::Color::Magenta : sf::Color::Black);
+                grid[x][y].shape.setFillColor(grid[x][y].alive ? sf::Color(158, 96, 179) : sf::Color::Black);
             }
         }
     }
@@ -206,7 +200,7 @@ int main() {
     std::cin >> height;
 
     GameOfLife game(width, height);
-    game.run();
+    game.start();
 
     return 0;
 }
