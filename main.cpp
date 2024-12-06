@@ -26,7 +26,8 @@ public:
         bool running = true;
         bool paused = true;
         sf::Font font;
-        if (!font.loadFromFile("arialmt.ttf")) 
+        //  if (!font.loadFromFile("arialmt.ttf")) 
+        if (!font.loadFromFile("C:\\Programming\\sumpr\\arialmt.ttf")) 
         {
             std::cout <<"lol"; // Ошибка загрузки шрифта
         }
@@ -119,7 +120,7 @@ public:
             window.draw(text2);
             window.display();
 
-            sf::sleep(sf::milliseconds(100)); // Задержка для визуализации
+            sf::sleep(sf::milliseconds(300)); // Задержка для визуализации
         }
     }
 
