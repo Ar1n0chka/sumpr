@@ -26,8 +26,8 @@ public:
         bool running = true;
         bool paused = true;
         sf::Font font;
-        //  if (!font.loadFromFile("arialmt.ttf")) 
-        if (!font.loadFromFile("C:\\Programming\\sumpr\\arialmt.ttf")) 
+         if (!font.loadFromFile("arialmt.ttf")) 
+        // if (!font.loadFromFile("C:\\Programming\\sumpr\\arialmt.ttf")) 
         {
             std::cout <<"lol"; // Ошибка загрузки шрифта
         }
